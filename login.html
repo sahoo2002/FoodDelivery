@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login</title>
+    <style>
+      :root {
+        --border: 1px solid rgb(193, 193, 193);
+      }
+
+      body {
+        display: grid;
+        place-items: center;
+        height: 100dvh;
+      }
+      .card {
+        border: var(--border);
+        width: 300px;
+        border-radius: 1rem;
+        background-color: white;
+        box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px,
+          rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
+        padding: 2rem;
+      }
+      .card > div {
+        display: flex;
+        flex-direction: column;
+        text-align: center;
+        gap: 1.2rem;
+      }
+      input[type="text"],
+      input[type="password"] {
+        outline: none;
+        border-radius: 0.25rem;
+        padding: 10px;
+        border: var(--border);
+      }
+      .flex {
+        display: flex;
+      }
+      .between {
+        justify-content: space-between;
+      }
+      .m-b-2rem {
+        margin-bottom: 2rem;
+      }
+      button {
+        outline: none;
+        border: var(--border);
+        padding: 0.6rem;
+        border-radius: 0.25rem;
+        background-color: orangered;
+        color: white;
+      }
+      .error {
+        color: red;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="card">
+      <div>
+        <h2 style="color: orangered">Login to Site</h2>
+        <input type="text" id="username" placeholder="Username" />
+        <input type="password" id="password" placeholder="Password" />
+        <button id="submit">Login</button>
+        <div class="flex between m-b-2rem">
+          <a href="reset.html">Reset Password</a>
+          <a href="register.html">Create account</a>
+        </div>
+        <span class="error"></span>
+      </div>
+    </div>
+    <script src="jquery-3.7.1.min.js"></script>
+    <script type="module">
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.2/firebase-app.js";
+
+      import {
+        collection,
+        query,
+        where,
+        getFirestore,
+        getDocs,
+      } from "https://www.gstatic.com/firebasejs/10.7.2/firebase-firestore.js";
+
+      const firebaseConfig = {
+        apiKey: "AIzaSyAYDmE9s1_pg6E0Gl-coqFiFUiEcUJbf_M",
+        authDomain: "food-faad0.firebaseapp.com",
+        projectId: "food-faad0",
+        storageBucket: "food-faad0.appspot.com",
+        messagingSenderId: "727691334447",
+        appId: "1:727691334447:web:d23f7dec036b878f3287da",
+      };
+
+      var error_msg = "";
+      const app = initializeApp(firebaseConfig);
+
+      const db = getFirestore(app);
+
+      const citiesRef = collection(db, "users");
+
+      var serverData;
+      async function getData(email) {
+        const q = query(citiesRef, where("mail", "==", email));
+        let res = await getDocs(q);
+        // console.log(res.data());
+        res.forEach((doc) => {
+          serverData = doc.data();
+          if (serverData.pwd == $("#password").val()) {
+            location.href = `/dashboard.html?id=${doc.id}`;
+          }else{
+            error_msg = "Something wrong."
+          }
+          
+          $(".error").text(error_msg);
+        });
+      }
+
+      $("#submit").on("click", (e) => {
+        if ($("#username").val() == "" || $("#password").val() == "") {
+          error_msg = "All fields are mandatory.";
+        } else {
+          getData($("#username").val());
+        }
+
+        $(".error").text(error_msg);
+      });
+    </script>
+  </body>
+</html>
