@@ -3,14 +3,47 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Dashboard</title>
+    <link rel="stylesheet" href="master.css" />
+    <link rel="stylesheet" href="dashboard.css" />
+    <title>Document</title>
   </head>
   <body>
-    hello
-
+    <div class="navbar">
+      <div>
+        <img src="images (2).svg" alt="" />
+        <button class="btn primary">Logout</button>
+      </div>
+    </div>
+    <div class="content">
+      <div class="hero-section">
+        <span class="fs-5"> Looking for delicious </span>
+        <div class="scroller">
+          <div>
+            <span class="magic">Meal</span>
+            <span class="magic">Lunch</span>
+            <span class="magic">Brunch</span>
+            <span class="magic">Dine</span>
+            <span class="magic">Supper</span>
+          </div>
+        </div>
+      </div>
+      <div class="food-section">
+        <div class="food-filter-section">
+          <div>
+            <select id="">
+              <option value="Veg">Vegitarian</option>
+              <option value="non-veg">Non - Vegitarian</option>
+              <option value="eggitarian">Eggitarian</option>
+              <option value="vegan">Vegan</option>
+            </select>
+          </div>
+        </div>
+        <div class="food"></div>
+      </div>
+    </div>
     <script>
       const url = new URL(location.href).searchParams;
-      console.log(url.get("id"))
+      console.log(url.get("id"));
     </script>
   </body>
 </html>
